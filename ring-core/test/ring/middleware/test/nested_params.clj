@@ -28,7 +28,10 @@
         {"a[b]" ["c" "d"]} {"a" {"b" ["c" "d"]}}))
     (testing "parameters with newlines"
       (are [p r] (= (handler {:params p}) r)
-        {"foo\nbar" "baz"} {"foo\nbar" "baz"}))))
+        {"foo\nbar" "baz"} {"foo\nbar" "baz"}))
+    (testing "parameters are already nested"
+      (is (= {"foo" [["bar" "baz"]["asdf" "zxcv"]]}
+             (handler {:params {"foo" [["bar" "baz"] ["asdf" "zxcv"]]}}))))))
 
 (deftest nested-params-test-with-options
   (let [handler (wrap-nested-params :params
